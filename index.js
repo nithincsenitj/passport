@@ -2,7 +2,7 @@
 const express=require('express');
 const app=express();
 
-//require('dotenv').config()
+require('dotenv').config()
 //importing lodash library for array operations like sorting etcnot much  required here)
 var _ = require("lodash");
 
@@ -31,7 +31,7 @@ app.use(passport.initialize());
 
 //sequelize
 const Sequelize = require('sequelize');
-const connection = new Sequelize('rest_api','postgres','password',{
+const connection = new Sequelize(process.env.DB_NAME,process.env.DB_USERNAME,process.env.DB_PASSWORD,{
   dialect:'postgres',operatorsAliases: true
 });
 
@@ -60,7 +60,7 @@ Users.create({
 //jwt object initialisation
 var jwtOptions = {}
 jwtOptions.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
-jwtOptions.secretOrKey = 'tasmanianDevil';
+jwtOptions.secretOrKey = process.env.SECRETKEY;
 
 //passport Strategy declaration
 var strategy = new JwtStrategy(jwtOptions, function(jwt_payload, next) {
